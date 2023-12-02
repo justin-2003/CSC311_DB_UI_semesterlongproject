@@ -30,6 +30,8 @@ import java.util.ResourceBundle;
 public class DB_GUI_Controller implements Initializable {
 
     @FXML
+    MenuItem editItem, ClearItem, deleteItem;
+    @FXML
     Button deleteBtn,editBtn;
     @FXML
     TextField first_name, last_name, department, major, email, imageURL;
@@ -60,6 +62,8 @@ public class DB_GUI_Controller implements Initializable {
             tv.setItems(data);
             deleteBtn.setDisable(true);
             editBtn.setDisable(true);
+            editItem.setDisable(true);
+            deleteItem.setDisable(true);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
@@ -88,6 +92,8 @@ public class DB_GUI_Controller implements Initializable {
         imageURL.setText("");
         deleteBtn.setDisable(true);
         editBtn.setDisable(true);
+        editItem.setDisable(true);
+        deleteItem.setDisable(true);
     }
 
     @FXML
@@ -133,6 +139,7 @@ public class DB_GUI_Controller implements Initializable {
             data.add(index, p2);
             tv.getSelectionModel().select(index);
             editBtn.setDisable(true);
+            editItem.setDisable(true);
     }
     @FXML
     protected void deleteRecord() {
@@ -142,6 +149,7 @@ public class DB_GUI_Controller implements Initializable {
             data.remove(index);
             tv.getSelectionModel().select(index);
             deleteBtn.setDisable(true);
+            deleteItem.setDisable(true);
     }
 
     @FXML
@@ -163,6 +171,8 @@ public class DB_GUI_Controller implements Initializable {
         if (p != null) {
             deleteBtn.setDisable(false);
             editBtn.setDisable(false);
+            editItem.setDisable(false);
+            deleteItem.setDisable(false);
             first_name.setText(p.getFirstName());
             last_name.setText(p.getLastName());
             department.setText(p.getDepartment());
@@ -172,6 +182,8 @@ public class DB_GUI_Controller implements Initializable {
         } else {
             deleteBtn.setDisable(true);
             editBtn.setDisable(true);
+            editItem.setDisable(true);
+            deleteItem.setDisable(true);
         }
     }
 
@@ -231,6 +243,7 @@ public class DB_GUI_Controller implements Initializable {
     }
 
     private static enum Major {Business, CSC, CPIS}
+    private static enum Majormain{Business, CSC, CPIS}
 
     private static class Results {
 
