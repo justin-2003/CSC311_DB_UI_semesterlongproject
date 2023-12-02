@@ -9,7 +9,7 @@ import java.sql.*;
 public class DbConnectivityClass {
     final static String DB_NAME="CSC311_BD_TEMPS";
         MyLogger lg= new MyLogger();
-        final static String SQL_SERVER_URL = "jdbc:mysql://csc311coursesamj.mariadb.database.azure.com.com";//update this server name
+        final static String SQL_SERVER_URL = "jdbc:mysql://csc311coursesamj.mariadb.database.azure.com/";//update this server name
         final static String DB_URL = "jdbc:mysql://csc311coursesamj.mariadb.database.azure.com/"+DB_NAME;//update this database name
         final static String USERNAME = "csc311samj@csc311coursesamj";// update this username
         final static String PASSWORD = "#Nitsuj03";// update this password

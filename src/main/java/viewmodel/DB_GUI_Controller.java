@@ -30,6 +30,8 @@ import java.util.ResourceBundle;
 public class DB_GUI_Controller implements Initializable {
 
     @FXML
+    Button deleteBtn,editBtn;
+    @FXML
     TextField first_name, last_name, department, major, email, imageURL;
     @FXML
     ImageView img_view;
@@ -44,6 +46,8 @@ public class DB_GUI_Controller implements Initializable {
     private final DbConnectivityClass cnUtil = new DbConnectivityClass();
     private final ObservableList<Person> data = cnUtil.getData();
 
+
+
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         try {
@@ -54,6 +58,8 @@ public class DB_GUI_Controller implements Initializable {
             tv_major.setCellValueFactory(new PropertyValueFactory<>("major"));
             tv_email.setCellValueFactory(new PropertyValueFactory<>("email"));
             tv.setItems(data);
+            deleteBtn.setDisable(true);
+            editBtn.setDisable(true);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
@@ -80,6 +86,8 @@ public class DB_GUI_Controller implements Initializable {
         major.setText("");
         email.setText("");
         imageURL.setText("");
+        deleteBtn.setDisable(true);
+        editBtn.setDisable(true);
     }
 
     @FXML
@@ -116,23 +124,24 @@ public class DB_GUI_Controller implements Initializable {
 
     @FXML
     protected void editRecord() {
-        Person p = tv.getSelectionModel().getSelectedItem();
-        int index = data.indexOf(p);
-        Person p2 = new Person(index + 1, first_name.getText(), last_name.getText(), department.getText(),
-                major.getText(), email.getText(),  imageURL.getText());
-        cnUtil.editUser(p.getId(), p2);
-        data.remove(p);
-        data.add(index, p2);
-        tv.getSelectionModel().select(index);
+            Person p = tv.getSelectionModel().getSelectedItem();
+            int index = data.indexOf(p);
+            Person p2 = new Person(index + 1, first_name.getText(), last_name.getText(), department.getText(),
+                    major.getText(), email.getText(), imageURL.getText());
+            cnUtil.editUser(p.getId(), p2);
+            data.remove(p);
+            data.add(index, p2);
+            tv.getSelectionModel().select(index);
+            editBtn.setDisable(true);
     }
-
     @FXML
     protected void deleteRecord() {
-        Person p = tv.getSelectionModel().getSelectedItem();
-        int index = data.indexOf(p);
-        cnUtil.deleteRecord(p);
-        data.remove(index);
-        tv.getSelectionModel().select(index);
+            Person p = tv.getSelectionModel().getSelectedItem();
+            int index = data.indexOf(p);
+            cnUtil.deleteRecord(p);
+            data.remove(index);
+            tv.getSelectionModel().select(index);
+            deleteBtn.setDisable(true);
     }
 
     @FXML
@@ -151,12 +160,19 @@ public class DB_GUI_Controller implements Initializable {
     @FXML
     protected void selectedItemTV(MouseEvent mouseEvent) {
         Person p = tv.getSelectionModel().getSelectedItem();
-        first_name.setText(p.getFirstName());
-        last_name.setText(p.getLastName());
-        department.setText(p.getDepartment());
-        major.setText(p.getMajor());
-        email.setText(p.getEmail());
-        imageURL.setText(p.getImageURL());
+        if (p != null) {
+            deleteBtn.setDisable(false);
+            editBtn.setDisable(false);
+            first_name.setText(p.getFirstName());
+            last_name.setText(p.getLastName());
+            department.setText(p.getDepartment());
+            major.setText(p.getMajor());
+            email.setText(p.getEmail());
+            imageURL.setText(p.getImageURL());
+        } else {
+            deleteBtn.setDisable(true);
+            editBtn.setDisable(true);
+        }
     }
 
     public void lightTheme(ActionEvent actionEvent) {
