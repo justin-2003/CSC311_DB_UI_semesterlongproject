@@ -14,6 +14,7 @@ import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.KeyCode;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.VBox;
 import javafx.stage.FileChooser;
@@ -30,9 +31,11 @@ import java.util.ResourceBundle;
 public class DB_GUI_Controller implements Initializable {
 
     @FXML
+    Label disclaimerLabel;
+    @FXML
     MenuItem editItem, ClearItem, deleteItem;
     @FXML
-    Button deleteBtn,editBtn;
+    Button deleteBtn,editBtn,addBtn;
     @FXML
     TextField first_name, last_name, department, major, email, imageURL;
     @FXML
@@ -47,8 +50,9 @@ public class DB_GUI_Controller implements Initializable {
     private TableColumn<Person, String> tv_fn, tv_ln, tv_department, tv_major, tv_email;
     private final DbConnectivityClass cnUtil = new DbConnectivityClass();
     private final ObservableList<Person> data = cnUtil.getData();
+    boolean flag = false;
 
-
+    boolean isFormValid = false;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -64,14 +68,164 @@ public class DB_GUI_Controller implements Initializable {
             editBtn.setDisable(true);
             editItem.setDisable(true);
             deleteItem.setDisable(true);
+
+            // Additional initialization logic from the second initialize method
+            // checks if all the fields are filled correctly and helps with the register button
+            first_name.focusedProperty().addListener((observable, oldValue, newValue) -> checkAvailability());
+            email.focusedProperty().addListener((observable, oldValue, newValue) -> checkAvailability());
+            last_name.focusedProperty().addListener((observable, oldValue, newValue) -> checkAvailability());
+            department.focusedProperty().addListener((observable, oldValue, newValue) -> checkAvailability());
+            major.focusedProperty().addListener((observable, oldValue, newValue) -> checkAvailability());
+            imageURL.setOnKeyPressed(event -> {
+                if (event.getCode() != KeyCode.TAB && flag) {
+                    imageURL.setStyle("-fx-border-color: black ; -fx-border-width: 1px ;");
+                    disclaimerLabel.setText("");
+                    flag = false;
+                }
+            });
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
+
+        first_name.focusedProperty().addListener((observable, oldValue, newValue) -> {
+            if (newValue) {
+
+                System.out.println("Welcome text is focused");
+            } else {
+                if (first_name.getText().matches("[a-zA-Z]{2,25}")) {
+                    first_name.setEditable(true);
+                    first_name.setBorder(null);
+                    first_name.setStyle("-fx-border-color: green ; -fx-border-width: 4px ;");
+                } else {
+
+                    first_name.setStyle("-fx-border-color: red ; -fx-border-width: 4px ;");
+                    first_name.setVisible(true);
+                    first_name.requestFocus();
+                    disclaimerLabel.setText("First name needs to be between 2-25 characters");
+                    flag = true;
+                }
+
+            }
+        });
+
+        last_name.focusedProperty().addListener((observable, oldValue, newValue) -> {
+            if (newValue) {
+
+                System.out.println("Welcome text is focused");
+            } else {
+                if (last_name.getText().matches("[a-zA-Z]{2,25}")) {
+                    last_name.setEditable(true);
+                    last_name.setBorder(null);
+                    last_name.setStyle("-fx-border-color: green ; -fx-border-width: 4px ;");
+                } else {
+
+                    last_name.setStyle("-fx-border-color: red ; -fx-border-width: 4px ;");
+                    last_name.setVisible(true);
+                    last_name.requestFocus();
+                    disclaimerLabel.setText("Last name needs to be between 2-25 characters");
+                    flag = true;
+                }
+
+            }
+        });
+
+        department.focusedProperty().addListener((observable, oldValue, newValue) -> {
+            if (newValue) {
+
+                System.out.println("Welcome text is focused");
+            } else {
+                if (department.getText().matches("[a-zA-Z]{2,25}")) {
+                    department.setEditable(true);
+                    department.setBorder(null);
+                    department.setStyle("-fx-border-color: green ; -fx-border-width: 4px ;");
+                } else {
+
+                    department.setStyle("-fx-border-color: red ; -fx-border-width: 4px ;");
+                    department.setVisible(true);
+                    department.requestFocus();
+                    disclaimerLabel.setText("Department needs to be between 2-25 characters");
+                    flag = true;
+                }
+
+            }
+        });
+        major.focusedProperty().addListener((observable, oldValue, newValue) -> {
+            if (newValue) {
+
+                System.out.println("Welcome text is focused");
+            } else {
+                if (major.getText().matches("[a-zA-Z]{2,25}")) {
+                    major.setEditable(true);
+                    major.setBorder(null);
+                    major.setStyle("-fx-border-color: green ; -fx-border-width: 4px ;");
+                } else {
+
+                    major.setStyle("-fx-border-color: red ; -fx-border-width: 4px ;");
+                    major.setVisible(true);
+                    major.requestFocus();
+                    disclaimerLabel.setText("Major needs to be between 2-25 characters");
+                    flag = true;
+                }
+
+            }
+        });
+
+        email.focusedProperty().addListener((observable, oldValue, newValue) -> {
+            if (newValue) {
+                System.out.println("Welcome text is focused");
+            } else {
+                if (email.getText().matches("^[A-Za-z0-9]+@farmingdale\\.edu$")) {
+                    email.setEditable(false);
+                    email.setBorder(null);
+                    email.setStyle("-fx-border-color: green ; -fx-border-width: 4px ;");
+                } else {
+
+                    email.setStyle("-fx-border-color: red ; -fx-border-width: 4px ;");
+                    email.setVisible(true);
+                    email.requestFocus();
+                    disclaimerLabel.setText("email should be in the farmingdale.edu format");
+                    flag = true;
+                }
+
+            }
+        });
+
+        imageURL.focusedProperty().addListener((observable, oldValue, newValue) -> {
+            if (newValue) {
+
+                System.out.println("Welcome text is focused");
+            } else {
+                if (imageURL.getText().matches("[a-zA-Z]{2,25}")) {
+                    imageURL.setEditable(true);
+                    imageURL.setBorder(null);
+                    imageURL.setStyle("-fx-border-color: green ; -fx-border-width: 4px ;");
+                } else {
+
+                    imageURL.setStyle("-fx-border-color: red ; -fx-border-width: 4px ;");
+                    imageURL.setVisible(true);
+                    imageURL.requestFocus();
+                    disclaimerLabel.setText("ImageURL needs to be between 2-25 characters");
+                    flag = true;
+                }
+
+            }
+        });
+
+    }
+
+    private void checkAvailability() {
+            isFormValid = first_name.getText().matches("[a-zA-Z]{2,25}")
+                    && last_name.getText().matches("[a-zA-Z]{2,25}")
+                    && email.getText().matches("^[A-Za-z0-9]+@farmingdale\\.edu$")
+                    && department.getText().matches("[a-zA-Z]{2,25}")
+                    && major.getText().matches("[a-zA-Z]{2,25}")
+                    && imageURL.getText().matches("[a-zA-Z]{2,25}");
+
+            addBtn.setDisable(!isFormValid);
     }
 
     @FXML
     protected void addNewRecord() {
-
             Person p = new Person(first_name.getText(), last_name.getText(), department.getText(),
                     major.getText(), email.getText(), imageURL.getText());
             cnUtil.insertUser(p);
@@ -79,7 +233,6 @@ public class DB_GUI_Controller implements Initializable {
             p.setId(cnUtil.retrieveId(p));
             data.add(p);
             clearForm();
-
     }
 
     @FXML
@@ -162,7 +315,12 @@ public class DB_GUI_Controller implements Initializable {
 
     @FXML
     protected void addRecord() {
-        showSomeone();
+        if(isFormValid) {
+            showSomeone();
+            addBtn.setDisable(true);
+        }else{
+            addBtn.setDisable(true);
+        }
     }
 
     @FXML
