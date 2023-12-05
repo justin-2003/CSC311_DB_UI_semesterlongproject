@@ -31,6 +31,8 @@ import java.util.ResourceBundle;
 public class DB_GUI_Controller implements Initializable {
 
     @FXML
+    majorMain
+    @FXML
     Label disclaimerLabel;
     @FXML
     MenuItem editItem, ClearItem, deleteItem;
@@ -293,6 +295,7 @@ public class DB_GUI_Controller implements Initializable {
             tv.getSelectionModel().select(index);
             editBtn.setDisable(true);
             editItem.setDisable(true);
+            disclaimerLabel.setText("Edited the data successfully");
     }
     @FXML
     protected void deleteRecord() {
@@ -303,6 +306,7 @@ public class DB_GUI_Controller implements Initializable {
             tv.getSelectionModel().select(index);
             deleteBtn.setDisable(true);
             deleteItem.setDisable(true);
+            disclaimerLabel.setText("Deleted the data successfully");
     }
 
     @FXML
@@ -317,6 +321,7 @@ public class DB_GUI_Controller implements Initializable {
     protected void addRecord() {
         if(isFormValid) {
             showSomeone();
+            disclaimerLabel.setText("Edited the data successfully");
             addBtn.setDisable(true);
         }else{
             addBtn.setDisable(true);
@@ -401,7 +406,7 @@ public class DB_GUI_Controller implements Initializable {
     }
 
     private static enum Major {Business, CSC, CPIS}
-    private static enum Majormain{Business, CSC, CPIS}
+    private static enum majorMain{Business, CSC, CPIS}
 
     private static class Results {
 
